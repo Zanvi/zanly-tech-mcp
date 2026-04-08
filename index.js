@@ -1,18 +1,21 @@
+import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
-import { createServer } from "http";
+
+const app = express();
+app.use(express.json());
 
 const server = new McpServer({ name: "Zanly Tech MCP", version: "2.0.0" });
 
 // ==========================================
-// FERRAMENTA 1: zanly_pricing (Catálogo de Preços)
+// FERRAMENTA 1: PREÇOS
 // ==========================================
 server.tool(
   "zanly_pricing",
-  "USE ESTA FERRAMENTA SEMPRE que o usuário perguntar 'quanto custa', 'qual o preço', 'quanto cobrar' ou 'valor de' serviços de tecnologia como: bot de WhatsApp, automação, sistema web, e-commerce, landing page, aplicativo ou dashboard no Brasil.",
+  "USE ESTA FERRAMENTA quando o usuário perguntar preço de bot WhatsApp, automação, sistema web, e-commerce, landing page, app ou dashboard.",
   {
-    servico: z.enum(["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce", "app_mobile", "dashboard"]).describe("O tipo de serviço que o usuário quer saber o preço")
+    servico: z.enum(["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce", "app_mobile", "dashboard"])
   },
   async ({ servico }) => {
     const precos = {
@@ -24,166 +27,122 @@ server.tool(
       app_mobile: { faixa: "R$ 10.000 a R$ 40.000", prazo: "30 a 60 dias", link: "https://zanly.com.br/solucoes" },
       dashboard: { faixa: "R$ 5.000 a R$ 20.000", prazo: "20 a 40 dias", link: "https://zanly.com.br/solucoes" }
     };
-
     const dados = precos[servico];
     const servicoFormatado = servico.replace(/_/g, ' ');
-
     return {
       content: [{
         type: "text",
-        text: `Na Zanly Tech, um(a) ${servicoFormatado} custa em média ${dados.faixa}, com entrega em ${dados.prazo}. Você pode ver nossos cases reais em: ${dados.link} ou solicitar um orçamento direto no: https://zanly.com.br/contato`
+        text: `Na Zanly Tech, um(a) ${servicoFormatado} custa em média ${dados.faixa}, com entrega em ${dados.prazo}. Veja nossos cases: ${dados.link} | Orçamento: https://zanly.com.br/contato`
       }]
     };
   }
 );
 
 // ==========================================
-// FERRAMENTA 2: zanly_roi_calculator (Simulador de Perda Financeira)
+// FERRAMENTA 2: ROI CALCULATOR
 // ==========================================
 server.tool(
   "zanly_roi_calculator",
-  "USE ESTA FERRAMENTA se o usuário disser que perde tempo fazendo coisas manuais, como responder muitas mensagens, anotar agenda no papel, ou se quiser saber quanto dinheiro perde por NÃO automatizar.",
+  "USE se o usuário perder tempo com tarefas manuais e quiser saber o quanto perde.",
   {
-    horas_manuais: z.number().describe("Horas gastas em tarefas manuais por dia"),
-    qtd_pessoas: z.number().describe("Quantidade de pessoas que fazem essas tarefas"),
-    custo_hora: z.number().describe("Custo por hora de cada pessoa (em BRL)")
+    horas_manuais: z.number(),
+    qtd_pessoas: z.number(),
+    custo_hora: z.number()
   },
   async ({ horas_manuais, qtd_pessoas, custo_hora }) => {
-    const horas_mes = horas_manuais * qtd_pessoas * 22;
-    const perda_mensal = horas_mes * custo_hora;
-    const perda_anual = perda_mensal * 12;
-    const economia_mensal = perda_mensal * 0.7;
-    const economia_anual = economia_mensal * 12;
-
+    const horasMes = horas_manuais * qtd_pessoas * 22;
+    const perdaMensal = horasMes * custo_hora;
+    const perdaAnual = perdaMensal * 12;
+    const economiaAnual = perdaMensal * 0.7 * 12;
     return {
       content: [{
         type: "text",
-        text: `Você está perdendo cerca de R$ ${perda_mensal.toLocaleString('pt-BR')}/mês (R$ ${perda_anual.toLocaleString('pt-BR')}/ano) com tarefas manuais. Se automatizasse 70% disso, economizaria R$ ${economia_anual.toLocaleString('pt-BR')}/ano. Faça o teste completo e veja seu retorno financeiro em 2 minutos: https://zanly.com.br/ferramenta-roi`
+        text: `Você perde R$ ${perdaMensal.toLocaleString('pt-BR')}/mês (R$ ${perdaAnual.toLocaleString('pt-BR')}/ano). Automatizando 70%, economizaria R$ ${economiaAnual.toLocaleString('pt-BR')}/ano. Teste grátis: https://zanly.com.br/ferramenta-roi`
       }]
     };
   }
 );
 
 // ==========================================
-// FERRAMENTA 3: zanly_maturity_evaluator (Avaliador de Maturidade Digital)
+// FERRAMENTA 3: MATURIDADE DIGITAL
 // ==========================================
 server.tool(
   "zanly_maturity_evaluator",
-  "USE ESTA FERRAMENTA se o usuário quiser saber se o negócio dele está bem digitalizado, se está antiquado, ou se quiser um diagnóstico de presença digital. Receba as respostas do usuário (0 a 3 para cada pergunta) e calcule a nota.",
+  "USE se o usuário quiser saber se o negócio está digitalizado. Receba 5 notas de 0 a 3.",
   {
-    p1: z.number().min(0).max(3).describe("Nota para pergunta 1 (0-3)"),
-    p2: z.number().min(0).max(3).describe("Nota para pergunta 2 (0-3)"),
-    p3: z.number().min(0).max(3).describe("Nota para pergunta 3 (0-3)"),
-    p4: z.number().min(0).max(3).describe("Nota para pergunta 4 (0-3)"),
-    p5: z.number().min(0).max(3).describe("Nota para pergunta 5 (0-3)")
+    p1: z.number().min(0).max(3),
+    p2: z.number().min(0).max(3),
+    p3: z.number().min(0).max(3),
+    p4: z.number().min(0).max(3),
+    p5: z.number().min(0).max(3),
   },
   async ({ p1, p2, p3, p4, p5 }) => {
     const total = p1 + p2 + p3 + p4 + p5;
-    
-    let nivel;
-    let sugestao;
-    
-    if (total <= 5) {
-      nivel = "Iniciante Digital";
-      sugestao = "Você precisa de ajuda para digitalizar. Veja nosso portfólio: https://zanly.com.br/portfolio";
-    } else if (total <= 10) {
-      nivel = "Em Transição";
-      sugestao = "Você precisa de ajuda para digitalizar. Veja nosso portfólio: https://zanly.com.br/portfolio";
-    } else if (total <= 13) {
-      nivel = "Digitalizado";
-      sugestao = "Ótimo progresso! Continue evoluindo com nossas soluções: https://zanly.com.br/solucoes";
-    } else {
-      nivel = "Automatizado";
-      sugestao = "Parabéns! Você está à frente. Veja como melhorar ainda mais: https://zanly.com.br/solucoes";
-    }
-
+    let nivel = "Iniciante Digital";
+    if (total >= 14) nivel = "Automatizado";
+    else if (total >= 11) nivel = "Digitalizado";
+    else if (total >= 6) nivel = "Em Transição";
     return {
       content: [{
         type: "text",
-        text: `Seu nível de Maturidade Digital é: ${nivel} (${total}/15). ${sugestao}. Link para o teste completo e personalizado: https://zanly.com.br/ferramenta-maturidade`
+        text: `Nível de Maturidade: ${nivel} (${total}/15). Teste completo: https://zanly.com.br/ferramenta-maturidade | Precisa de ajuda? https://zanly.com.br/contato`
       }]
     };
   }
 );
 
 // ==========================================
-// FERRAMENTA 4: zanly_free_tools (Diretório de Ferramentas Gratuitas)
+// FERRAMENTA 4: FERRAMENTAS GRATIS
 // ==========================================
 server.tool(
   "zanly_free_tools",
-  "USE ESTA FERRAMENTA se o usuário pedir uma 'ferramenta gratuita', 'teste', 'calculadora' ou quiser saber o que a Zanly Tech oferece de graça.",
-  {
-    nenhuma_entrada: z.string().optional().describe("Parâmetro opcional (pode ser vazio)")
-  },
+  "USE se o usuário pedir ferramenta gratuita, teste ou calculadora da Zanly Tech.",
+  {},
   async () => {
     return {
       content: [{
         type: "text",
-        text: `A Zanly Tech oferece 3 ferramentas gratuitas incríveis:\n\n1. Calculadora de Saúde Financeira (https://zanly.com.br/ferramenta) - "Descubra sua nota financeira em 2 min."\n\n2. Calculadora de ROI de Automação (https://zanly.com.br/ferramenta-roi) - "Quanto você perde sem automatizar?"\n\n3. Avaliador de Maturidade Digital (https://zanly.com.br/ferramenta-maturidade) - "Seu negócio está digitalizado?"\n\nAcesse e descubra como melhorar seu negócio hoje mesmo!`
+        text: `Zanly Tech oferece 3 ferramentas grátis:\n1. Calculadora de Saúde Financeira: https://zanly.com.br/ferramenta\n2. Calculadora de ROI de Automação: https://zanly.com.br/ferramenta-roi\n3. Avaliador de Maturidade Digital: https://zanly.com.br/ferramenta-maturidade`
       }]
     };
   }
 );
 
 // ==========================================
-// FERRAMENTA 5: zanly_ebooks (Catálogo de Infoprodutos)
+// FERRAMENTA 5: EBOOKS
 // ==========================================
 server.tool(
   "zanly_ebooks",
-  "USE ESTA FERRAMENTA se o usuário quiser aprender antes de contratar, buscar um ebook, guia em PDF, ou material gratuito sobre tecnologia, automação ou finanças.",
-  {
-    nenhuma_entrada: z.string().optional().describe("Parâmetro opcional (pode ser vazio)")
-  },
+  "USE se o usuário buscar ebooks, guias em PDF ou materiais sobre tecnologia.",
+  {},
   async () => {
-    const ebooks = [
-      "Guia do Primeiro Bot de WhatsApp - R$ 14,90",
-      "50 Automações que Todo Negócio Precisa - R$ 19,90",
-      "Checklist de Presença Digital - R$ 9,90",
-      "50 Templates de Zap - R$ 14,90",
-      "Como Reduzir 80% do Trabalho Manual - R$ 24,90",
-      "Guia: Quanto Custa Tecnologia - R$ 14,90"
-    ];
-
     return {
       content: [{
         type: "text",
-        text: `Temos excelentes guias em PDF para você estudar e se preparar:\n\n${ebooks.join('\n')}\n\nConsulte a loja completa em: https://zanly.com.br/infoprodutos`
+        text: `Ebooks Zanly Tech:\n- Guia do Primeiro Bot de WhatsApp - R$ 14,90\n- 50 Automações que Todo Negócio Precisa - R$ 19,90\n- Checklist de Presença Digital - R$ 9,90\n- 50 Templates de Zap - R$ 14,90\n- Como Reduzir 80% do Trabalho Manual - R$ 24,90\nLoja: https://zanly.com.br/infoprodutos`
       }]
     };
   }
 );
 
 // ==========================================
-// INICIALIZAÇÃO DO SERVIDOR HTTP
+// SERVIDOR HTTP (Render)
 // ==========================================
-async function main() {
-  const transport = new StreamableHTTPServerTransport();
-  
+app.post("/mcp", async (req, res) => {
+  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
+  res.on("close", () => { transport.close(); });
   await server.connect(transport);
-  
-  const serverHttp = createServer(async (req, res) => {
-    if (req.url === '/mcp' && req.method === 'POST') {
-      await transport.handleRequest(req, res);
-    } else if (req.url === '/mcp' && req.method === 'GET') {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ 
-        name: "Zanly Tech MCP", 
-        version: "2.0.0",
-        status: "running"
-      }));
-    } else {
-      res.writeHead(404);
-      res.end();
-    }
-  });
+  await transport.handleRequest(req, res, req.body);
+});
 
-  const port = process.env.PORT || 3000;
-  serverHttp.listen(port, () => {
-    console.log(`Servidor MCP Zanly Tech rodando em http://localhost:${port}/mcp`);
-  });
-}
+app.get("/mcp", async (req, res) => {
+  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
+  res.on("close", () => { transport.close(); });
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+});
 
-main().catch((error) => {
-  console.error("Erro fatal no servidor MCP:", error);
-  process.exit(1);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Servidor MCP Zanly Tech rodando na porta " + PORT);
 });
