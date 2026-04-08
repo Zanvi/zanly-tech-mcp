@@ -1,0 +1,18 @@
+{
+  "name": "zanly-mcp-server",
+  "version": "1.0.0",
+  "description": "Servidor MCP da Zanly Tech - Assistente Virtual de Vendas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.mjs"
+  },
+  "keywords": ["mcp", "zanly", "chatbot", "vendas", "automacao"],
+  "author": "Zanly Tech",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.3.6"
+  }
+}
