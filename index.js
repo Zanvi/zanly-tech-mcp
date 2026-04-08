@@ -129,17 +129,42 @@ server.tool(
 // SERVIDOR HTTP (Render)
 // ==========================================
 app.post("/mcp", async (req, res) => {
-  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
-  res.on("close", () => { transport.close(); });
-  await server.connect(transport);
-  await transport.handleRequest(req, res, req.body);
+  try {
+    const transport = new StreamableHTTPServerTransport({ 
+      sessionIdGenerator: () => crypto.randomUUID() 
+    });
+    res.on("close", () => { transport.close(); });
+    await server.connect(transport);
+    await transport.handleRequest(req, res, req.body);
+  } catch (error) {
+    console.error("Erro no POST /mcp:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get("/mcp", async (req, res) => {
-  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
-  res.on("close", () => { transport.close(); });
-  await server.connect(transport);
-  await transport.handleRequest(req, res, req.body);
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json({ 
+      name: "Zanly Tech MCP", 
+      version: "2.0.0",
+      status: "running",
+      tools: ["zanly_pricing", "zanly_roi_calculator", "zanly_maturity_evaluator", "zanly_free_tools", "zanly_ebooks"]
+    });
+  } catch (error) {
+    console.error("Erro no GET /mcp:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Endpoint raiz para teste
+app.get("/", (req, res) => {
+  res.json({ 
+    name: "Zanly Tech MCP Server", 
+    version: "2.0.0",
+    status: "online",
+    endpoints: ["/mcp"]
+  });
 });
 
 const PORT = process.env.PORT || 3000;
