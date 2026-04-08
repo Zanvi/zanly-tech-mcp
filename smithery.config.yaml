@@ -1,5 +1,3 @@
 startCommand:
-  type: stdio
-  command: node
-  args:
-    - index.js
+  type: url
+  url: https://zanly-tech-mcp.onrender.com/mcp

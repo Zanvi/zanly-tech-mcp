@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/http.js";
 import { z } from "zod";
+import { createServer } from "http";
 
 const server = new McpServer({ name: "Zanly Tech MCP", version: "2.0.0" });
 
@@ -153,11 +154,33 @@ server.tool(
 );
 
 // ==========================================
-// INICIALIZAÇÃO DO SERVIDOR
+// INICIALIZAÇÃO DO SERVIDOR HTTP
 // ==========================================
 async function main() {
-  const transport = new StdioServerTransport();
+  const transport = new StreamableHTTPServerTransport();
+  
   await server.connect(transport);
+  
+  const serverHttp = createServer(async (req, res) => {
+    if (req.url === '/mcp' && req.method === 'POST') {
+      await transport.handleRequest(req, res);
+    } else if (req.url === '/mcp' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ 
+        name: "Zanly Tech MCP", 
+        version: "2.0.0",
+        status: "running"
+      }));
+    } else {
+      res.writeHead(404);
+      res.end();
+    }
+  });
+
+  const port = process.env.PORT || 3000;
+  serverHttp.listen(port, () => {
+    console.log(`Servidor MCP Zanly Tech rodando em http://localhost:${port}/mcp`);
+  });
 }
 
 main().catch((error) => {
