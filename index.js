@@ -1,7 +1,8 @@
-import { McpServer, StdioServerTransport } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-async function main() {
+export function createServer() {
   const server = new McpServer({
     name: "Zanly Tech MCP",
     version: "4.0.0",
@@ -46,6 +47,15 @@ async function main() {
     content: [{ type: "text", text: "Ebooks: Guia do Bot (R$14,90), 50 Automações (R$19,90), Checklist Digital (R$9,90). Loja: https://zanly.com.br/infoprodutos" }]
   }));
 
+  return server;
+}
+
+export function createSandboxServer() {
+  return createServer();
+}
+
+async function main() {
+  const server = createServer();
   const transport = new StdioServerTransport();
   
   await server.connect(transport);
