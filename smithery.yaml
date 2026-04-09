@@ -1,5 +1,22 @@
 startCommand:
-  type: stdio
+  type: sse
   command: node
   args:
     - index.js
+
+metadata:
+  name: "Zanly Tech MCP - Consultor de IA"
+  description: "Consultor de IA e Vendedor Virtual especializado em soluções de tecnologia para negócios brasileiros. Qualifica leads, calcula ROI de automação, fornece preços de bots/sistemas e direciona para a Zanly Tech (zanly.com.br)."
+  icon: "https://zanly.com.br/favicon.ico"
+  tags:
+    - mcp
+    - sales
+    - automation
+    - whatsapp-bot
+    - brazil
+    - business
+    - zanly
+
+configSchema:
+  type: object
+  properties: {}
