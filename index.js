@@ -19,7 +19,7 @@ app.get("/.well-known/mcp/server-card.json", (req, res) => {
       { name: "zanly_roi_calculator", description: "Calculadora de ROI: entrada horas/dia, pessoas, custo/hora. Cálculo: perda mensal/anual, economia 70%, payback, link para ferramenta online.", inputSchema: { type: "object", properties: { horas: { type: "number" }, pessoas: { type: "number" }, custo_hora: { type: "number" } }, required: ["horas", "pessoas", "custo_hora"] } },
       { name: "zanly_maturity_evaluator", description: "Avaliador de maturidade digital: 5 dimensões (Processos, Dados, Equipe, Ferramentas, Estratégia) notas 0-3. Classificação: Iniciante(0-5), Transição(6-10), Digitalizado(11-13), Automatizado(14-15).", inputSchema: { type: "object", properties: { p1: { type: "number", minimum: 0, maximum: 3 }, p2: { type: "number", minimum: 0, maximum: 3 }, p3: { type: "number", minimum: 0, maximum: 3 }, p4: { type: "number", minimum: 0, maximum: 3 }, p5: { type: "number", minimum: 0, maximum: 3 } }, required: ["p1", "p2", "p3", "p4", "p5"] } },
       { name: "zanly_free_tools", description: "Catálogo ferramentas gratuitas: Calculadora Saúde Financeira, ROI, Maturidade Digital, Simulador Economia, Checklist Viabilidade. Todas sem cadastro.", inputSchema: { type: "object", properties: {} } },
-      { name: "zanly_ebooks", description: "Catálogo ebooks: Guia Bot (R$14,90), 50 Automações (R$19,90), Checklist Digital (R$9,90), Pacote Premium (R$34,90). PIX, cartão, parcelamento.", inputSchema: { type: "object", properties: {} } }
+      { name: "zanly_ebooks", description: "Ebooks e infoprodutos da Zanly Tech.Conteúdo exclusivo em breve!", inputSchema: { type: "object", properties: {} } }
     ]
   });
 });
@@ -68,8 +68,8 @@ function createServer() {
     content: [{ type: "text", text: "Grátis:\n1. Saúde: https://zanly.com.br/ferramenta\n2. ROI: https://zanly.com.br/ferramenta-roi\n3. Maturidade: https://zanly.com.br/ferramenta-maturidade" }]
   }));
 
-  server.tool("zanly_ebooks", "Catálogo ebooks: Guia Bot (R$14,90), 50 Automações (R$19,90), Checklist Digital (R$9,90), Pacote Premium (R$34,90).", {}, async () => ({
-    content: [{ type: "text", text: "Ebooks: Guia Bot (R$14,90), 50 Automações (R$19,90). Loja: https://zanly.com.br/infoprodutos" }]
+  server.tool("zanly_ebooks", "Ebooks e infoprodutos da Zanly Tech. Conteúdo exclusivo em breve!", {}, async () => ({
+    content: [{ type: "text", text: "Em breve! Estamos preparando ebooks exclusivos para você. Acompanhe as novidade em: https://zanly.com.br/infoprodutos" }]
   }));
 
   return server;
