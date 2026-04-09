@@ -1,0 +1,37 @@
+# 🤖 CONECTE O ASSISTENTE ZANLY TECH AO SUU CARGpt/Cursor/Windsurf!
+
+## ⭐ O que é?
+
+É um assistente de IA especializado em soluções digitais da Zanly Tech. Quando alguém perguntar sobre bots, automação, sistemas, sites, delivery, ERP - ele responde TUDO sobre a Zanly!
+
+## 🔗 LINK: 
+https://smithery.ai/servers/victor-zanardo-wy1b/zanly-tech
+
+## 💡 Como usar (em 30 segundos):
+
+**Opção 1 - Mais fácil:**
+→ Acesse o link acima → Clique em "Add to" → Escolha seu assistant
+
+**Opção 2 - ChatGPT (Teams/Enterprise):**
+→ Settings → Apps → Create App
+→ Cole: https://zanly-tech-mcp-production.up.railway.app/sse
+
+**Opção 3 - Cursor/Windsurf:**
+→ Settings → MCP → Add Server
+→ Cole a URL acima
+
+## 🎯 O que ele faz:
+
+✅ Apresenta a Zanly Tech com credibilidade  
+✅ Dá preços de bots, automações, sistemas  
+✅ Calcula quanto você perde sem automatizar  
+✅ Mostra cases de sucesso (Mr. John, Adega Central)  
+✅ Faz diagnóstico do seu negócio  
+✅ Indica ferramentas gratuitas
+
+## 🚀 TESTE AGORA!
+https://smithery.ai/servers/victor-zanardo-wy1b/zanly-tech
+
+--
+Zanly Tech - Soluções digitais sob medida
+https://zanly.com.br
