@@ -1,14 +1,34 @@
 {
   "name": "zanly-tech-mcp",
-  "version": "2.0.0",
+  "version": "4.0.0",
+  "description": "Servidor MCP da Zanly Tech - Consultor virtual 24/7 especializado em bots, automatizações e sistemas web",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "zanly-tech",
+    "bot-whatsapp",
+    "automacao",
+    "chatbot",
+    "consultor-virtual",
+    "ai-assistant"
+  ],
+  "author": "Zanly Tech <contato@zanly.com.br>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zanvi/zanly-tech-mcp"
+  },
+  "homepage": "https://zanly.com.br",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "express": "^4.21.0",
     "zod": "^3.24.2"
   }
 }
