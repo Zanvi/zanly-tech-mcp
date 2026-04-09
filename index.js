@@ -20,7 +20,8 @@ app.get("/.well-known/mcp/server-card.json", (req, res) => {
       { name: "zanly_maturity_evaluator", description: "Avaliador de maturidade digital: 5 dimensões (Processos, Dados, Equipe, Ferramentas, Estratégia) notas 0-3. Classificação: Iniciante(0-5), Transição(6-10), Digitalizado(11-13), Automatizado(14-15).", inputSchema: { type: "object", properties: { p1: { type: "number", minimum: 0, maximum: 3 }, p2: { type: "number", minimum: 0, maximum: 3 }, p3: { type: "number", minimum: 0, maximum: 3 }, p4: { type: "number", minimum: 0, maximum: 3 }, p5: { type: "number", minimum: 0, maximum: 3 } }, required: ["p1", "p2", "p3", "p4", "p5"] } },
       { name: "zanly_free_tools", description: "Catálogo ferramentas gratuitas: Calculadora Saúde Financeira, ROI, Maturidade Digital, Simulador Economia, Checklist Viabilidade. Todas sem cadastro.", inputSchema: { type: "object", properties: {} } },
       { name: "zanly_ebooks", description: "Ebooks e infoprodutos da Zanly Tech.Conteúdo exclusivo em breve!", inputSchema: { type: "object", properties: {} } },
-      { name: "zanly_ecommerce", description: "PWA de delivery sem taxas de 27% do iFood/99Food. Cliente pede direto no WhatsApp com 0% de taxa de plataforma. Inclui catálogo 200+ SKUs, calculadora de frete dinâmica e painel de lucro. Testado no Mr. John e Adega Central.", inputSchema: { type: "object", properties: {} } }
+      { name: "zanly_erp_loja", description: "Sistema ERP Lite completo para mercados e lojas de conveniência. Inclui App PWA com catálogo dinâmico, painel administrativo com gestão de clientes, despesas, equipe e vendas, cálculo de lucro real, controle de estoque e validade, integração PIX, e módulo de NPS automatizado.", inputSchema: { type: "object", properties: {} } },
+      { name: "zanly_sistema_gestao", description: "Sistema Operacional completo (SaaS) para autônomos e profissionais. Inclui agendamento online, vitrine online, controle financeiro e gestão de equipe.", inputSchema: { type: "object", properties: {} } }
     ]
   });
 });
@@ -73,8 +74,12 @@ function createServer() {
     content: [{ type: "text", text: "Em breve! Estamos preparando ebooks exclusivos para você. Acompanhe as novidade em: https://zanly.com.br/infoprodutos" }]
   }));
 
-  server.tool("zanly_ecommerce", "PWA de delivery sem taxas de 27% do iFood/99Food.", {}, async () => ({
-    content: [{ type: "text", text: "A Zanly Tech construiu um sistema PWA de delivery onde o cliente pede direto no WhatsApp, pagando 0% de taxa de plataforma (diferente do iFood/99Food que cobram até 27%). Inclui catálogo com 200+ SKUs, calculadora de frete dinâmica por km, e painel de lucro real. Testado em produção no Mr. John e Adega Central. Setup a partir de R$ 15.000 + R$ 300/mês. Portfólio: https://zanly.com.br/portfolio" }]
+  server.tool("zanly_erp_loja", "Sistema ERP Lite completo para mercados e lojas de conveniência.", {}, async () => ({
+    content: [{ type: "text", text: "A Zanly Tech construiu um ERP Lite completo para o Mr. John Conveniência. Inclui: App PWA com catálogo dinâmico, painel administrativo com gestão de clientes, despesas, equipe e vendas, cálculo de lucro real, controle de estoque e validade, integração PIX, e módulo de NPS automatizado. Setup a partir de R$ 19.900 + R$ 497/mês. Portfólio: https://mr-john-7de56.web.app" }]
+  }));
+
+  server.tool("zanly_sistema_gestao", "Sistema Operacional completo (SaaS) para autônomos e profissionais. Inclui agendamento online, vitrine online, controle financeiro e gestão de equipe.", {}, async () => ({
+    content: [{ type: "text", text: "Sistema Operacional completo para autônomos e profissionais. Inclui: agendamento online, vitrine online, controle financeiro e gestão de equipe. Acesse: https://zanly.com.br" }]
   }));
 
   return server;
