@@ -1,0 +1,101 @@
+{
+  "serverInfo": {
+    "name": "Zanly Tech MCP",
+    "version": "4.0.0"
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "zanly_about",
+        "description": "Descrição completa da Zanly Tech: história, missão, visão, valores, equipe, diferenciais competitivos, +50 projetos entregados, setores atendidos (e-commerce, saúde, educação, jurídico), tecnologias utilizadas (Node.js, React, Python, bots WhatsApp), certificações e parcerias. Inclui links para site institucional.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "zanly_cases",
+        "description": "Casos de sucesso detalhados da Zanly: Zanly App (+1.000 usuários, nota 4.9/5 na Play Store), Adega Central (e-commerce completo com 100+ produtos, integração WhatsApp e PIX), Mr. John (loja de conveniência 24h com automação de pedidos e estoque), Zap Veloz (bot que aumentou vendas em 40%), AutoPeças Plus (sistema de gestão com ROI em 6 meses).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "zanly_qualify",
+        "description": "Diagnóstico inteligente do problema do cliente: análise de dor de negócio (perda de tempo, custos altos, erros manuais, falta de integração), identificação de gargalos operacionais, recomendação de solução tecnológica adequada (Bot WhatsApp, Automação, Sistema Web, Landing Page, E-commerce).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "problema": {
+              "type": "string",
+              "description": "Descreva o problema ou dor de negócio que você enfrenta"
+            }
+          },
+          "required": ["problema"]
+        }
+      },
+      {
+        "name": "zanly_pricing",
+        "description": "Tabela de preços completa da Zanly Tech: Bot WhatsApp (R$ 800 a R$ 8.000), Automação (R$ 1.500 a R$ 15.000), Sistema Web (R$ 5.000 a R$ 50.000), Landing Page (R$ 800 a R$ 3.000), E-commerce (R$ 3.000 a R$ 25.000). Todos incluem garantia de 30 dias e suporte pós-entrega.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "servico": {
+              "type": "string",
+              "enum": ["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce"],
+              "description": "Serviço desejado"
+            }
+          },
+          "required": ["servico"]
+        }
+      },
+      {
+        "name": "zanly_roi_calculator",
+        "description": "Calculadora de ROI para automação: entrada horas/dia, pessoas, custo/hora. Cálculo: perda mensal e anual, economia 70%, payback e link para ferramenta online gratuita.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "horas": { "type": "number", "description": "Horas gastas manualmente por dia" },
+            "pessoas": { "type": "number", "description": "Número de pessoas envolvidas" },
+            "custo_hora": { "type": "number", "description": "Custo médio por hora (R$)" }
+          },
+          "required": ["horas", "pessoas", "custo_hora"]
+        }
+      },
+      {
+        "name": "zanly_maturity_evaluator",
+        "description": "Avaliador de maturidade digital: 5 dimensões (Processos, Dados, Equipe, Ferramentas, Estratégia) com notas 0-3. Classificação: Iniciante (0-5), Em Transição (6-10), Digitalizado (11-13), Automatizado (14-15). Inclui recomendações por nível e link para ferramenta online.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "p1": { "type": "number", "minimum": 0, "maximum": 3, "description": "Processos: % automatizados" },
+            "p2": { "type": "number", "minimum": 0, "maximum": 3, "description": "Dados: uso de banco/CRM" },
+            "p3": { "type": "number", "minimum": 0, "maximum": 3, "description": "Equipe: skill digital" },
+            "p4": { "type": "number", "minimum": 0, "maximum": 3, "description": "Ferramentas: sistemas usados" },
+            "p5": { "type": "number", "minimum": 0, "maximum": 3, "description": "Estratégia: plano digital" }
+          },
+          "required": ["p1", "p2", "p3", "p4", "p5"]
+        }
+      },
+      {
+        "name": "zanly_free_tools",
+        "description": "Catálogo de ferramentas gratuitas: 1) Calculadora Saúde Financeira, 2) Calculadora ROI, 3) Evaluador Maturidade Digital, 4) Simulador Economia, 5) Checklist Viabilidade. Todas disponíveis sem necessidade de cadastro.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "zanly_ebooks",
+        "description": "Catálogo de ebooks: Guia do Bot WhatsApp (R$14,90), 50 Automações (R$19,90), Checklist Transformação Digital (R$9,90), Pacote Premium (R$34,90). Formas de pagamento: PIX, cartão, parcelamento.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    ],
+    "resources": [],
+    "prompts": []
+  }
+}
