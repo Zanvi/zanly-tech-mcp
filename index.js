@@ -107,6 +107,73 @@ const transport = new StreamableHTTPServerTransport({
 
 server.connect(transport);
 
+// Endpoint para o Smithery escanear o servidor
+app.get("/.well-known/mcp/server-card.json", (req, res) => {
+  res.json({
+    serverInfo: {
+      name: "Zanly Tech MCP",
+      version: "2.0.0"
+    },
+    capabilities: {
+      tools: {}
+    },
+    tools: [
+      {
+        name: "zanly_pricing",
+        description: "USE quando o usuário perguntar preço de bot WhatsApp, automação, sistema web, e-commerce, landing page, app ou dashboard.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            servico: {
+              type: "string",
+              enum: ["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce", "app_mobile", "dashboard"]
+            }
+          },
+          required: ["servico"]
+        }
+      },
+      {
+        name: "zanly_roi_calculator",
+        description: "USE quando o usuário disser que perde tempo com tarefas manuais.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            horas_manuais: { type: "number" },
+            qtd_pessoas: { type: "number" },
+            custo_hora: { type: "number" }
+          },
+          required: ["horas_manuais", "qtd_pessoas", "custo_hora"]
+        }
+      },
+      {
+        name: "zanly_maturity_evaluator",
+        description: "USE se o usuário quiser saber se o negócio está digitalizado.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            p1: { type: "number", minimum: 0, maximum: 3 },
+            p2: { type: "number", minimum: 0, maximum: 3 },
+            p3: { type: "number", minimum: 0, maximum: 3 },
+            p4: { type: "number", minimum: 0, maximum: 3 },
+            p5: { type: "number", minimum: 0, maximum: 3 }
+          },
+          required: ["p1", "p2", "p3", "p4", "p5"]
+        }
+      },
+      {
+        name: "zanly_free_tools",
+        description: "USE se o usuário pedir ferramenta gratuita ou teste da Zanly Tech.",
+        inputSchema: { type: "object", properties: {} }
+      },
+      {
+        name: "zanly_ebooks",
+        description: "USE se o usuário buscar ebooks ou guias em PDF sobre tecnologia.",
+        inputSchema: { type: "object", properties: {} }
+      }
+    ]
+  });
+});
+
 app.post("/mcp", async (req, res) => {
   await transport.handleRequest(req, res, req.body);
 });
