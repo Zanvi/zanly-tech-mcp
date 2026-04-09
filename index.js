@@ -7,6 +7,19 @@ const app = express();
 app.use(express.json());
 
 // ==========================================
+// CARTÃO DE VISITAS DO MCP (Para o Smithery achar)
+// ==========================================
+app.get("/.well-known/mcp/server-card.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.json({
+    name: "Zanly Tech MCP",
+    description: "Vendedor automático da Zanly Tech. Preços de bots, automações e sistemas. Calculadoras de ROI e maturidade digital gratuitas.",
+    address: "/mcp",
+    transport: "streamable-http"
+  });
+});
+
+// ==========================================
 // CONFIGURAÇÃO DAS FERRAMENTAS
 // ==========================================
 function setupTools(server) {
@@ -55,7 +68,7 @@ function setupTools(server) {
 }
 
 // ==========================================
-// ROTA PRINCIPAL (À PROVA DE FALHAS)
+// ROTA PRINCIPAL MCP
 // ==========================================
 app.all("/mcp", async (req, res) => {
   const server = new McpServer({ name: "Zanly Tech MCP", version: "2.0.0" });
