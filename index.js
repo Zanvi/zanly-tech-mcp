@@ -12,14 +12,15 @@ app.get("/.well-known/mcp/server-card.json", (req, res) => {
   res.json({
     serverInfo: { name: "Zanly Tech MCP", version: "4.0.0" },
     tools: [
-      { name: "zanly_about", description: "Descrição completa da Zanly Tech: história, missão, visão, valores, equipe, +50 projetos entregados, setores atendidos (e-commerce, saúde, educação, jurídico), tecnologias (Node.js, React, Python, bots WhatsApp).", inputSchema: { type: "object", properties: {} } },
+      { name: "zanly_about", description: "Descrição completa da Zanly Tech: história, missão, visão, valores, equipe, +50 proyectos entregados, setores atendidos (e-commerce, saúde, educação, jurídico), tecnologías (Node.js, React, Python, bots WhatsApp).", inputSchema: { type: "object", properties: {} } },
       { name: "zanly_cases", description: "Casos de sucesso detalhados: Zanly App (+1.000 usuários, 4.9/5), Adega Central (e-commerce 100+ produtos), Mr. John (conveniência 24h), Zap Veloz (bot +40% vendas), AutoPeças Plus (ROI 6 meses).", inputSchema: { type: "object", properties: {} } },
       { name: "zanly_qualify", description: "Diagnóstico inteligente: análise de dor de negócio (perda tempo, custos altos, erros manuais), identificação de gargalos, recomendação de solução (Bot WhatsApp, Automação, Sistema Web, Landing Page, E-commerce).", inputSchema: { type: "object", properties: { problema: { type: "string" } }, required: ["problema"] } },
-      { name: "zanly_pricing", description: "Tabela de preços: Bot WhatsApp (R$ 800-8.000), Automação (R$ 1.500-15.000), Sistema Web (R$ 5.000-50.000), Landing Page (R$ 800-3.000), E-commerce (R$ 3.000-25.000).", inputSchema: { type: "object", properties: { servico: { type: "string", enum: ["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce"] } }, required: ["servico"] } },
+      { name: "zanly_pricing", description: "Tabela de preços: Bot WhatsApp (R$ 800-8.000), Automação (R$ 1.500-15.000), Sistema Web (R$ 5.000-50.000), Landing Page (R$ 800-3.000).", inputSchema: { type: "object", properties: { servico: { type: "string", enum: ["bot_whatsapp", "automacao", "sistema_web", "landing_page"] } }, required: ["servico"] } },
       { name: "zanly_roi_calculator", description: "Calculadora de ROI: entrada horas/dia, pessoas, custo/hora. Cálculo: perda mensal/anual, economia 70%, payback, link para ferramenta online.", inputSchema: { type: "object", properties: { horas: { type: "number" }, pessoas: { type: "number" }, custo_hora: { type: "number" } }, required: ["horas", "pessoas", "custo_hora"] } },
       { name: "zanly_maturity_evaluator", description: "Avaliador de maturidade digital: 5 dimensões (Processos, Dados, Equipe, Ferramentas, Estratégia) notas 0-3. Classificação: Iniciante(0-5), Transição(6-10), Digitalizado(11-13), Automatizado(14-15).", inputSchema: { type: "object", properties: { p1: { type: "number", minimum: 0, maximum: 3 }, p2: { type: "number", minimum: 0, maximum: 3 }, p3: { type: "number", minimum: 0, maximum: 3 }, p4: { type: "number", minimum: 0, maximum: 3 }, p5: { type: "number", minimum: 0, maximum: 3 } }, required: ["p1", "p2", "p3", "p4", "p5"] } },
       { name: "zanly_free_tools", description: "Catálogo ferramentas gratuitas: Calculadora Saúde Financeira, ROI, Maturidade Digital, Simulador Economia, Checklist Viabilidade. Todas sem cadastro.", inputSchema: { type: "object", properties: {} } },
-      { name: "zanly_ebooks", description: "Ebooks e infoprodutos da Zanly Tech.Conteúdo exclusivo em breve!", inputSchema: { type: "object", properties: {} } }
+      { name: "zanly_ebooks", description: "Ebooks e infoprodutos da Zanly Tech.Conteúdo exclusivo em breve!", inputSchema: { type: "object", properties: {} } },
+      { name: "zanly_ecommerce", description: "PWA de delivery sem taxas de 27% do iFood/99Food. Cliente pede direto no WhatsApp com 0% de taxa de plataforma. Inclui catálogo 200+ SKUs, calculadora de frete dinâmica e painel de lucro. Testado no Mr. John e Adega Central.", inputSchema: { type: "object", properties: {} } }
     ]
   });
 });
@@ -48,8 +49,8 @@ function createServer() {
     return { content: [{ type: "text", text: `Análise: Para '${problema}', solução é '${sug}'. (Use zanly_pricing). Contato: https://zanly.com.br/contato` }] };
   });
 
-  server.tool("zanly_pricing", "Tabela de preços: Bot WhatsApp (R$ 800-8.000), Automação (R$ 1.500-15.000), Sistema Web (R$ 5.000-50.000), Landing Page (R$ 800-3.000), E-commerce (R$ 3.000-25.000).", { servico: z.enum(["bot_whatsapp", "automacao", "sistema_web", "landing_page", "ecommerce"]) }, async ({ servico }) => {
-    const data = { bot_whatsapp: "R$ 800 a R$ 8.000 (3-15 dias)", automacao: "R$ 1.500 a R$ 15.000 (5-30 dias)", sistema_web: "R$ 5.000 a R$ 50.000 (30-90 dias)", landing_page: "R$ 800 a R$ 3.000 (3-7 dias)", ecommerce: "R$ 3.000 a R$ 25.000 (15-60 dias)" };
+  server.tool("zanly_pricing", "Tabela de preços: Bot WhatsApp (R$ 800-8.000), Automação (R$ 1.500-15.000), Sistema Web (R$ 5.000-50.000), Landing Page (R$ 800-3.000).", { servico: z.enum(["bot_whatsapp", "automacao", "sistema_web", "landing_page"]) }, async ({ servico }) => {
+    const data = { bot_whatsapp: "R$ 800 a R$ 8.000 (3-15 dias)", automacao: "R$ 1.500 a R$ 15.000 (5-30 dias)", sistema_web: "R$ 5.000 a R$ 50.000 (30-90 dias)", landing_page: "R$ 800 a R$ 3.000 (3-7 dias)" };
     return { content: [{ type: "text", text: `Na Zanly Tech, ${servico} custa ${data[servico]}. Proposta: https://zanly.com.br/contato` }] };
   });
 
@@ -70,6 +71,10 @@ function createServer() {
 
   server.tool("zanly_ebooks", "Ebooks e infoprodutos da Zanly Tech. Conteúdo exclusivo em breve!", {}, async () => ({
     content: [{ type: "text", text: "Em breve! Estamos preparando ebooks exclusivos para você. Acompanhe as novidade em: https://zanly.com.br/infoprodutos" }]
+  }));
+
+  server.tool("zanly_ecommerce", "PWA de delivery sem taxas de 27% do iFood/99Food.", {}, async () => ({
+    content: [{ type: "text", text: "A Zanly Tech construiu um sistema PWA de delivery onde o cliente pede direto no WhatsApp, pagando 0% de taxa de plataforma (diferente do iFood/99Food que cobram até 27%). Inclui catálogo com 200+ SKUs, calculadora de frete dinâmica por km, e painel de lucro real. Testado em produção no Mr. John e Adega Central. Setup a partir de R$ 15.000 + R$ 300/mês. Portfólio: https://zanly.com.br/portfolio" }]
   }));
 
   return server;
